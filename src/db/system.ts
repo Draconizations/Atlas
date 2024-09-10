@@ -57,7 +57,7 @@ export async function updateSystemById(id: number, data: AtlasSystem) {
     key => data[key as keyof AtlasSystem] === undefined && delete data[key as keyof AtlasSystem]
   )
 
-  const system: AtlasSystem[] = await db.update(systems).set(patch).where(eq(systems.id, id))
+  const system: AtlasSystem[] = await db.update(systems).set(patch).where(eq(systems.id, id)).returning()
   if (system && system[0]) return system[0]
   else return null
 }

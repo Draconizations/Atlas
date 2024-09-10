@@ -1,4 +1,4 @@
-import { createStringOption, type OKFunction } from "seyfert";
+import { createStringOption, createUserOption, type OKFunction } from "seyfert";
 import { isUrl } from "../utils/utils";
 
 export const systemEditOptions = {
@@ -25,5 +25,12 @@ export const systemEditOptions = {
       if (isUrl(data.value)) return ok(new URL(data.value));
         fail('expected a valid url');
     }
+  })
+}
+
+export const systemViewOptions = {
+  user: createUserOption({
+    required: false,
+    description: "Shows a system belonging to a specific user."
   })
 }
