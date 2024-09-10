@@ -7,7 +7,7 @@ import { systemEmbed } from "../../utils/embed"
 
 @Declare({
 	name: "view",
-	description: "Views a system's info.",
+	description: "Shows a system's info.",
 })
 @Middlewares(["data"])
 @Options(systemViewOptions)

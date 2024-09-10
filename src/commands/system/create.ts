@@ -23,7 +23,7 @@ export class CreateSystemCommand extends SubCommand {
 		let system = await createSystem(ctx.author.id, mapEditOptions(ctx))
 
 		if (system) {
-			ctx.write({
+			await ctx.write({
 				content: "Successfully created new system!",
 				embeds: [systemEmbed(ctx, system)],
 			})

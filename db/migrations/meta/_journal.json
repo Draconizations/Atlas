@@ -22,6 +22,13 @@
       "when": 1725976608940,
       "tag": "0002_system_created",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1725993716616,
+      "tag": "0003_member_table",
+      "breakpoints": true
     }
   ]
 }

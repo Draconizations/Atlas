@@ -9,5 +9,5 @@ export function isUrl(url: string) {
 
 export function nullIfEmpty(value: string | null | undefined) {
 	if (value && value.length === 0) return null
-	else return value
+	else return value?.replaceAll("\\n", "\n")
 }
