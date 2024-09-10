@@ -4,7 +4,8 @@ export const systems = pgTable("systems", {
  id: serial("id").primaryKey(),
  name: text("name"),
  color: varchar("color", { length: 6 }),
- icon: text("icon_url")
+ icon: text("icon_url"),
+ description: text("description")
 })
 
 export const accounts = pgTable("accounts", {

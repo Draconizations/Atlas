@@ -1,6 +1,6 @@
 import { CommandContext, Declare, SubCommand, Options, Middlewares } from "seyfert";
 import { systemEmbed } from "../../utils/embed";
-import { systemEditOptions } from "../../options/system";
+import { mapEditOptions, systemEditOptions } from "../../options/system";
 import { createSystem } from "../../db/system";
 
 
@@ -21,17 +21,12 @@ export class CreateSystemCommand extends SubCommand {
     }
 
     // no system found! let's create one
-    const data = {
-      name: ctx.options.name,
-      color: ctx.options.color,
-      icon: ctx.options.icon?.toString()
-    }
-    let system = await createSystem(ctx.author.id, data)
+    let system = await createSystem(ctx.author.id, mapEditOptions(ctx))
     
     if (system) {
       ctx.write({
         content: "Successfully created new system!",
-        embeds: [systemEmbed(system)]
+        embeds: [systemEmbed(ctx, system)]
       })
     }
   }

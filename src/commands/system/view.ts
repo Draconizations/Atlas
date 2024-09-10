@@ -25,7 +25,7 @@ export class ViewSystemCommand extends SubCommand {
 
     await ctx.write({
       content: `Viewing ${ctx.options.user ? ctx.options.user.username : ctx.author.username}'s system`,
-      embeds: [systemEmbed(system)]
+      embeds: [systemEmbed(ctx, system)]
     })
   }
 

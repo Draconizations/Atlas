@@ -1,5 +1,5 @@
 import { CommandContext, Declare, SubCommand, Options, Middlewares } from "seyfert";
-import { systemEditOptions } from "../../options/system";
+import { mapEditOptions, systemEditOptions } from "../../options/system";
 import { AtlasError, writeError } from "../../utils/errors";
 import type { AtlasSystem } from "../../types/system";
 import { updateSystemById } from "../../db/system";
@@ -19,21 +19,15 @@ export class EditSystemCommand extends SubCommand {
       await writeError(ctx, AtlasError.system_missing)
       return
     } 
-    
-    const patch: AtlasSystem = {
-      name: ctx.options.name,
-      color: ctx.options.color,
-      icon: ctx.options.icon?.toString()
-    }
 
     let updated: AtlasSystem|null = null
     if (system) {
-      updated = await updateSystemById(system.id, patch)
+      updated = await updateSystemById(system.id, mapEditOptions(ctx))
     }
 
     await ctx.write({
       content: "Successfully edited system!",
-      embeds: updated ? [systemEmbed(updated)] : undefined
+      embeds: updated ? [systemEmbed(ctx, updated)] : undefined
     })
   }
 

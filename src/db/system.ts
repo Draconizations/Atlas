@@ -5,17 +5,12 @@ import type { AtlasSystem, AtlasSystemInternal } from "../types/system"
 import { eq } from "drizzle-orm"
 
 export async function getSystemByAccount(id: string): Promise<AtlasSystemInternal|null> {
-  let system: AtlasSystemInternal[]|null = null
+  let system: AtlasSystemInternal|null = null
   
-  system = await db.select({
-    name: systems.name,
-    color: systems.color,
-    icon: systems.icon,
-    id: systems.id
-  }).from(systems).innerJoin(accounts, eq(accounts.id, id))
+  const data = await db.select().from(systems).innerJoin(accounts, eq(accounts.id, id))
+  if (data && data[0]) system = data[0].systems
 
-  if (system && system[0]) return system[0]
-  return null
+  return system
 }
 
 export async function createSystem(id: string, data: AtlasSystem): Promise<AtlasSystemInternal|null> {

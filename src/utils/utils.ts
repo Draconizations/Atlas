@@ -6,3 +6,8 @@ export function isUrl(url: string) {
   }
   return true
 }
+
+export function nullIfEmpty(value: string|null|undefined) {
+  if (value && value.length === 0) return null
+  else return value
+}
