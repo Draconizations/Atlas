@@ -35,7 +35,7 @@
 #       runner: go run
 
 pre-commit:
-    commands:
-        prettier:
-            run: bun format
-            stage_fixed: true
+  commands:
+    prettier:
+      run: bunx prettier {staged_files} --write
+      stage_fixed: true
