@@ -1,0 +1,1 @@
+ALTER TABLE "systems" ADD COLUMN "created" timestamp DEFAULT now() NOT NULL;

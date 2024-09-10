@@ -10,15 +10,18 @@ export async function getSystemByAccount(id: string): Promise<AtlasSystemInterna
   const data = await db.select().from(systems).innerJoin(accounts, eq(accounts.id, id))
   if (data && data[0]) system = data[0].systems
 
-  return system
+  let account: DiscordAccount[]|undefined
+
+  if (system && system.id) {
+    account = await db.select().from(accounts).where(eq(accounts.system, system.id))
+  }
+
+  if (system) return {...system, accounts: account}
+  else return null
 }
 
 export async function createSystem(id: string, data: AtlasSystem): Promise<AtlasSystemInternal|null> {
-  const system: AtlasSystemInternal[] = await db.insert(systems).values({
-    name: data.name,
-    color: data.color,
-    icon: data.icon
-  }).returning()
+  const system: AtlasSystemInternal[] = await db.insert(systems).values(data).returning()
 
   let account: DiscordAccount[]|null = null
   account = await db.select().from(accounts).where(eq(accounts.id, id))
@@ -34,7 +37,7 @@ export async function createSystem(id: string, data: AtlasSystem): Promise<Atlas
     }).where(eq(accounts.id, id))
   }
 
-  if (system && system[0]) return system[0]
+  if (system && system[0]) return {...system[0], accounts: account}
   else return null
 }
 
@@ -52,7 +55,13 @@ export async function updateSystemById(id: number, data: AtlasSystem) {
     key => data[key as keyof AtlasSystem] === undefined && delete data[key as keyof AtlasSystem]
   )
 
-  const system: AtlasSystem[] = await db.update(systems).set(patch).where(eq(systems.id, id)).returning()
-  if (system && system[0]) return system[0]
+  const system: AtlasSystemInternal[] = await db.update(systems).set(patch).where(eq(systems.id, id)).returning()
+
+  let account: DiscordAccount[]|undefined
+  if (system && system[0]) {
+    account = await db.select().from(accounts).where(eq(accounts.system, system[0].id))
+  }
+  
+  if (system && system[0]) return {...system[0], accounts: account}
   else return null
 }

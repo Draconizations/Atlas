@@ -12,5 +12,18 @@ export function systemEmbed(ctx: CommandContext<typeof systemViewOptions>, syste
   if (system.icon) embed = embed.setThumbnail(system.icon)
   if (system.description) embed.setDescription(system.description)
 
+  embed.addFields({
+    name: "Linked accounts",
+    value: system.accounts ? system.accounts.map(a => `<@${a.id}>`).join(", ") : "n/a"
+  })
+
+  embed.setFooter({
+    text: `Created on ${system.created?.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric"
+    })}`
+  })
+
   return embed
 }
