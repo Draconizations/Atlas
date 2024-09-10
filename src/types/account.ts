@@ -1,4 +1,4 @@
 export interface DiscordAccount {
-  id: string,
-  system: number|null
+	id: string
+	system: number | null
 }

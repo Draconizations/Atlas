@@ -1,5 +1,5 @@
-import { AtlasDataMiddleWare } from "./data";
+import { AtlasDataMiddleWare } from "./data"
 
 export default {
-  data: AtlasDataMiddleWare
+	data: AtlasDataMiddleWare,
 }
