@@ -40,7 +40,7 @@ export class EditMemberCommand extends SubCommand {
 		}
 
 		const patch = mapEditOptions(ctx)
-		if (Object.values(patch).every((x) => !x)) {
+		if (Object.values(patch).every((x) => x === undefined)) {
 			await writeError(ctx, AtlasError.no_changes)
 			return
 		}

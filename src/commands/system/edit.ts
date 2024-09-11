@@ -32,9 +32,15 @@ export class EditSystemCommand extends SubCommand {
 			return
 		}
 
+		const patch = mapEditOptions(ctx)
+		if (Object.values(patch).every((x) => x === undefined)) {
+			await writeError(ctx, AtlasError.no_changes)
+			return
+		}
+
 		let updated: AtlasSystem | null = null
 		if (system) {
-			updated = await updateSystemById(system.id, mapEditOptions(ctx))
+			updated = await updateSystemById(system.id, patch)
 		}
 
 		await ctx.write({
