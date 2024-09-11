@@ -2,6 +2,8 @@ import { CommandContext, Declare, SubCommand, Middlewares } from "seyfert"
 import { AtlasError, writeError } from "../../utils/errors"
 import { createDeletePrompt } from "../../actions/prompts"
 import { deleteSystemById } from "../../db/system"
+import { checkGuildInstall } from "../../utils/utils"
+import { MessageFlags } from "seyfert/lib/types"
 
 @Declare({
 	name: "delete",
@@ -12,6 +14,14 @@ import { deleteSystemById } from "../../db/system"
 @Middlewares(["data"])
 export class DeleteSystemCommand extends SubCommand {
 	async run(ctx: CommandContext<{}, "data">) {
+		if (!checkGuildInstall(ctx)) {
+			await ctx.write({
+				content: `❌ This server does not have Atlas installed.`,
+				flags: MessageFlags.Ephemeral,
+			})
+			return
+		}
+
 		let system = ctx.metadata.data.system
 		if (!system) {
 			await writeError(ctx, AtlasError.system_missing)

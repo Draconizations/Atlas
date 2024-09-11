@@ -3,6 +3,8 @@ import { MemberEmbed } from "../../utils/embed"
 import { mapCreateOptions, memberCreateOptions } from "../../options/member"
 import { AtlasError, writeError } from "../../utils/errors"
 import { createMember } from "../../db/member"
+import { checkGuildInstall } from "../../utils/utils"
+import { MessageFlags } from "seyfert/lib/types"
 
 @Declare({
 	name: "create",
@@ -14,6 +16,14 @@ import { createMember } from "../../db/member"
 @Middlewares(["data"])
 export class CreateMemberCommand extends SubCommand {
 	async run(ctx: CommandContext<typeof memberCreateOptions, "data">) {
+		if (!checkGuildInstall(ctx)) {
+			await ctx.write({
+				content: `❌ This server does not have Atlas installed.`,
+				flags: MessageFlags.Ephemeral,
+			})
+			return
+		}
+
 		const system = ctx.metadata.data.system
 
 		if (!system) {

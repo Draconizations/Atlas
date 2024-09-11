@@ -4,6 +4,7 @@ import { getMemberByName } from "../db/member"
 import { MessageFlags } from "seyfert/lib/types"
 import { proxyOptions } from "../options/proxy"
 import { proxyEmbed } from "../utils/embed"
+import { checkGuildInstall } from "../utils/utils"
 
 @Declare({
 	name: "proxy",
@@ -16,6 +17,14 @@ import { proxyEmbed } from "../utils/embed"
 @Middlewares(["data"])
 export default class ProxyCommand extends Command {
 	async run(ctx: CommandContext<typeof proxyOptions, "data">) {
+		if (!checkGuildInstall(ctx)) {
+			await ctx.write({
+				content: `❌ This server does not have Atlas installed.`,
+				flags: MessageFlags.Ephemeral,
+			})
+			return
+		}
+
 		const system = ctx.metadata.data.system
 
 		if (!system) {

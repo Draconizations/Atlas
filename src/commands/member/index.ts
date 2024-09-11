@@ -6,6 +6,8 @@ import { ViewMemberCommand } from "./view"
 @Declare({
 	name: "member",
 	description: "Member commands",
+	integrationTypes: ["GuildInstall", "UserInstall"],
+	contexts: ["BotDM", "Guild", "PrivateChannel"],
 })
 @Options([CreateMemberCommand, EditMemberCommand, ViewMemberCommand])
 export default class MemberCommand extends Command {}
