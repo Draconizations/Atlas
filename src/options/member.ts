@@ -1,5 +1,5 @@
 import { CommandContext, createStringOption, createUserOption, type OKFunction } from "seyfert"
-import { isUrl, nullIfEmpty } from "../utils/utils"
+import { isUrl, parseStringInput } from "../utils/utils"
 import type { AtlasMember, AtlasMemberFull } from "../types/member"
 
 const memberOptions = {
@@ -67,26 +67,25 @@ export const memberEditOptions = {
 }
 
 export function mapEditOptions(ctx: CommandContext<typeof memberEditOptions>) {
-	const data: AtlasMember = {
-		name: nullIfEmpty(ctx.options.name) ?? undefined,
-		color: nullIfEmpty(ctx.options.color),
-		icon: nullIfEmpty(ctx.options.icon?.toString()),
-		description: nullIfEmpty(ctx.options.description),
-		pronouns: nullIfEmpty(ctx.options.pronouns),
-		displayName: nullIfEmpty(ctx.options.displayname),
+	let data: AtlasMember = {
+		name: parseStringInput(ctx.options.name) ?? undefined,
+		color: parseStringInput(ctx.options.color),
+		icon: parseStringInput(ctx.options.icon?.toString()),
+		description: parseStringInput(ctx.options.description),
+		pronouns: parseStringInput(ctx.options.pronouns),
+		displayName: parseStringInput(ctx.options.displayname),
 	}
-
 	return data
 }
 
 export function mapCreateOptions(ctx: CommandContext<typeof memberCreateOptions>, system: number) {
 	const data: AtlasMemberFull = {
 		name: ctx.options.name,
-		color: nullIfEmpty(ctx.options.color),
-		icon: nullIfEmpty(ctx.options.icon?.toString()),
-		description: nullIfEmpty(ctx.options.description),
-		pronouns: nullIfEmpty(ctx.options.pronouns),
-		displayName: nullIfEmpty(ctx.options.displayname),
+		color: parseStringInput(ctx.options.color),
+		icon: parseStringInput(ctx.options.icon?.toString()),
+		description: parseStringInput(ctx.options.description),
+		pronouns: parseStringInput(ctx.options.pronouns),
+		displayName: parseStringInput(ctx.options.displayname),
 		system,
 		aliases: [],
 	}

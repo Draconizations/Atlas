@@ -1,5 +1,5 @@
 import { CommandContext, createStringOption, createUserOption, type OKFunction } from "seyfert"
-import { isUrl, nullIfEmpty } from "../utils/utils"
+import { isUrl, parseStringInput } from "../utils/utils"
 import type { AtlasSystem } from "../types/system"
 
 export const systemEditOptions = {
@@ -36,10 +36,10 @@ export const systemEditOptions = {
 
 export function mapEditOptions(ctx: CommandContext<typeof systemEditOptions>) {
 	const data: AtlasSystem = {
-		name: nullIfEmpty(ctx.options.name),
-		color: nullIfEmpty(ctx.options.color),
-		icon: nullIfEmpty(ctx.options.icon?.toString()),
-		description: nullIfEmpty(ctx.options.description),
+		name: parseStringInput(ctx.options.name),
+		color: parseStringInput(ctx.options.color),
+		icon: parseStringInput(ctx.options.icon?.toString()),
+		description: parseStringInput(ctx.options.description),
 	}
 
 	return data
