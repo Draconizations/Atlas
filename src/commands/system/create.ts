@@ -7,6 +7,8 @@ import { createYesNoPrompt } from "../../actions/prompts"
 @Declare({
 	name: "create",
 	description: "Creates a new system",
+	integrationTypes: ["GuildInstall", "UserInstall"],
+	contexts: ["BotDM", "Guild", "PrivateChannel"],
 })
 @Middlewares(["data"])
 @Options(systemEditOptions)

@@ -8,6 +8,8 @@ import { MemberEmbed } from "../../utils/embed"
 @Declare({
 	name: "view",
 	description: "Shows a member's info.",
+	integrationTypes: ["GuildInstall", "UserInstall"],
+	contexts: ["BotDM", "Guild", "PrivateChannel"],
 })
 @Middlewares(["data"])
 @Options(memberViewOptions)

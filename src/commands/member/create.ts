@@ -7,6 +7,8 @@ import { createMember } from "../../db/member"
 @Declare({
 	name: "create",
 	description: "Creates a new member",
+	integrationTypes: ["GuildInstall", "UserInstall"],
+	contexts: ["BotDM", "Guild", "PrivateChannel"],
 })
 @Options(memberCreateOptions)
 @Middlewares(["data"])

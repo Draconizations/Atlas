@@ -8,6 +8,8 @@ import { systemEmbed } from "../../utils/embed"
 @Declare({
 	name: "view",
 	description: "Shows a system's info.",
+	integrationTypes: ["GuildInstall", "UserInstall"],
+	contexts: ["BotDM", "Guild", "PrivateChannel"],
 })
 @Middlewares(["data"])
 @Options(systemViewOptions)

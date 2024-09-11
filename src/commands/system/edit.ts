@@ -8,6 +8,8 @@ import { systemEmbed } from "../../utils/embed"
 @Declare({
 	name: "edit",
 	description: "Edits your own system",
+	integrationTypes: ["GuildInstall", "UserInstall"],
+	contexts: ["BotDM", "Guild", "PrivateChannel"],
 })
 @Options(systemEditOptions)
 @Middlewares(["data"])

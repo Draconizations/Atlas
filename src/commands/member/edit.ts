@@ -7,6 +7,8 @@ import { getMemberByName, updateMemberByid } from "../../db/member"
 @Declare({
 	name: "edit",
 	description: "Creates a new member",
+	integrationTypes: ["GuildInstall", "UserInstall"],
+	contexts: ["BotDM", "Guild", "PrivateChannel"],
 })
 @Options(memberEditOptions)
 @Middlewares(["data"])

@@ -6,6 +6,8 @@ import { deleteSystemById } from "../../db/system"
 @Declare({
 	name: "delete",
 	description: "Deletes your system",
+	integrationTypes: ["GuildInstall", "UserInstall"],
+	contexts: ["BotDM", "Guild", "PrivateChannel"],
 })
 @Middlewares(["data"])
 export class DeleteSystemCommand extends SubCommand {
