@@ -34,7 +34,7 @@ export async function createSystem(
 	account = await db.select().from(accounts).where(eq(accounts.id, id))
 
 	if (!account || !account[0]) {
-		await db.insert(accounts).values({
+		account = await db.insert(accounts).values({
 			id: id,
 			system: system[0].id,
 		})
