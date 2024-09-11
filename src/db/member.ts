@@ -12,20 +12,15 @@ import type {
 export async function getMemberByName(system: number, name: string): Promise<AtlasMember | null> {
 	let member: AtlasMember | null = null
 
-	const data: AtlasMember[] = await db
+	const data = await db
 		.select()
 		.from(members)
-		.where(and(eq(members.system, system), ilike(members.name, name)))
+		.leftJoin(aliases, eq(aliases.member, members.id))
+		.where(
+			and(eq(members.system, system), or(ilike(members.name, name), ilike(aliases.name, name)))
+		)
 
-	if (data && data[0]) member = data[0]
-	if (!member) {
-		const aliasData = await db
-			.select()
-			.from(members)
-			.where(eq(members.system, system))
-			.innerJoin(aliases, ilike(aliases.name, name))
-		if (aliasData && aliasData[0]) member = aliasData[0].members
-	}
+	if (data && data[0]) member = data[0].members
 	if (!member) return null
 
 	let alias: MemberAlias[] = []
@@ -97,7 +92,7 @@ export async function clearMemberFieldsById(
 	else return null
 }
 
-export async function addAliasByMemberId(id: number, data: MemberAliasFull) {
+export async function addAlias(data: MemberAliasFull) {
 	const alias = await db.insert(aliases).values(data).returning()
 
 	if (alias && alias[0]) return alias[0]

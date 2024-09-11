@@ -7,7 +7,11 @@ import { eq } from "drizzle-orm"
 export async function getSystemByAccount(id: string): Promise<AtlasSystemInternal | null> {
 	let system: AtlasSystemInternal | null = null
 
-	const data = await db.select().from(systems).innerJoin(accounts, eq(accounts.id, id))
+	const data = await db
+		.select()
+		.from(systems)
+		.innerJoin(accounts, eq(accounts.system, systems.id))
+		.where(eq(accounts.id, id))
 	if (data && data[0]) system = data[0].systems
 
 	let account: DiscordAccount[] | undefined
