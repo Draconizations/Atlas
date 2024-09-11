@@ -1,2 +1,4 @@
 db/migrations/**/*
 *.md
+bun.lockb
+.prettierignore
