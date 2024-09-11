@@ -99,7 +99,7 @@ export function proxyEmbed(
 	embed.setDescription(ctx.options.message.replaceAll("\\n", "\n"))
 
 	embed.setFooter({
-		text: `Sent by @${ctx.author.username}${system.name ? ` | ${system.name}` : ""}`,
+		text: `Sent by @${ctx.author.username} | ${member.name}${system.name ? ` (${system.name})` : ""}`,
 	})
 
 	return embed
