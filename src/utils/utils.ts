@@ -13,12 +13,3 @@ export function parseStringInput(value: string | null | undefined) {
 	if (value === "/clear" || value === "{clear}") return null
 	else return value?.replaceAll("\\n", "\n")
 }
-
-export function checkGuildInstall(ctx: CommandContext) {
-	if (
-		ctx.interaction.context === 0 &&
-		!ctx.interaction.authorizingIntegrationOwners["0" as keyof {}]
-	)
-		return false
-	else return true
-}

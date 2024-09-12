@@ -4,8 +4,6 @@ import { getSystemByAccount } from "../../db/system"
 import { AtlasError, writeError } from "../../utils/errors"
 import { getMemberByName } from "../../db/member"
 import { MemberEmbed } from "../../utils/embed"
-import { MessageFlags } from "seyfert/lib/types"
-import { checkGuildInstall } from "../../utils/utils"
 
 @Declare({
 	name: "view",
@@ -13,18 +11,10 @@ import { checkGuildInstall } from "../../utils/utils"
 	integrationTypes: ["GuildInstall", "UserInstall"],
 	contexts: ["BotDM", "Guild", "PrivateChannel"],
 })
-@Middlewares(["data"])
+@Middlewares(["data", "guild"])
 @Options(memberViewOptions)
 export class ViewMemberCommand extends SubCommand {
 	async run(ctx: CommandContext<typeof memberViewOptions, "data">) {
-		if (!checkGuildInstall(ctx)) {
-			await ctx.write({
-				content: `❌ This server does not have Atlas installed.`,
-				flags: MessageFlags.Ephemeral,
-			})
-			return
-		}
-
 		let system = ctx.metadata.data.system
 
 		if (ctx.options.user) {

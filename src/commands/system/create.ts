@@ -3,8 +3,6 @@ import { systemEmbed } from "../../utils/embed"
 import { mapEditOptions, systemEditOptions } from "../../options/system"
 import { createSystem } from "../../db/system"
 import { createYesNoPrompt } from "../../actions/prompts"
-import { checkGuildInstall } from "../../utils/utils"
-import { MessageFlags } from "seyfert/lib/types"
 
 @Declare({
 	name: "create",
@@ -12,18 +10,10 @@ import { MessageFlags } from "seyfert/lib/types"
 	integrationTypes: ["GuildInstall", "UserInstall"],
 	contexts: ["BotDM", "Guild", "PrivateChannel"],
 })
-@Middlewares(["data"])
+@Middlewares(["data", "guild"])
 @Options(systemEditOptions)
 export class CreateSystemCommand extends SubCommand {
 	async run(ctx: CommandContext<typeof systemEditOptions, "data">) {
-		if (!checkGuildInstall(ctx)) {
-			await ctx.write({
-				content: `❌ This server does not have Atlas installed.`,
-				flags: MessageFlags.Ephemeral,
-			})
-			return
-		}
-
 		// check if the account is already linked to a system
 		if (ctx.metadata.data.system) {
 			ctx.write({

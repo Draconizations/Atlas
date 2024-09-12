@@ -3,8 +3,6 @@ import { MemberEmbed } from "../../utils/embed"
 import { mapEditOptions, memberEditOptions } from "../../options/member"
 import { AtlasError, writeError } from "../../utils/errors"
 import { getMemberByName, updateMemberByid } from "../../db/member"
-import { checkGuildInstall } from "../../utils/utils"
-import { MessageFlags } from "seyfert/lib/types"
 
 @Declare({
 	name: "edit",
@@ -13,17 +11,9 @@ import { MessageFlags } from "seyfert/lib/types"
 	contexts: ["BotDM", "Guild", "PrivateChannel"],
 })
 @Options(memberEditOptions)
-@Middlewares(["data"])
+@Middlewares(["data", "guild"])
 export class EditMemberCommand extends SubCommand {
 	async run(ctx: CommandContext<typeof memberEditOptions, "data">) {
-		if (!checkGuildInstall(ctx)) {
-			await ctx.write({
-				content: `❌ This server does not have Atlas installed.`,
-				flags: MessageFlags.Ephemeral,
-			})
-			return
-		}
-
 		const system = ctx.metadata.data.system
 
 		if (!system) {
