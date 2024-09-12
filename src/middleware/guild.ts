@@ -11,5 +11,7 @@ export const checkGuildMiddleware = createMiddleware(async (middle) => {
 			flags: MessageFlags.Ephemeral,
 		})
 		middle.pass()
+	} else {
+		middle.next({})
 	}
 })
