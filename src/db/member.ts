@@ -26,7 +26,7 @@ export async function getMemberByName(system: number, name: string): Promise<Atl
 	let alias: MemberAlias[] = []
 	if (member.id) alias = await db.select().from(aliases).where(eq(aliases.member, member.id))
 
-	return { ...member, aliases: alias.length > 0 ? alias : undefined }
+	return { ...member, aliases: alias.length > 0 ? alias : [] }
 }
 
 export async function createMember(data: AtlasMemberFull): Promise<AtlasMember | null> {
@@ -65,7 +65,7 @@ export async function updateMemberByid(id: number, data: AtlasMember): Promise<A
 		.where(eq(members.id, id))
 		.returning()
 
-	let alias: MemberAlias[] | undefined = undefined
+	let alias: MemberAlias[] = []
 	if (member && member[0]) {
 		alias = await db.select().from(aliases).where(eq(aliases.member, id))
 	}
@@ -83,7 +83,7 @@ export async function clearMemberFieldsById(
 
 	const member = await db.update(members).set(patch).where(eq(members.id, id)).returning()
 
-	let alias: MemberAlias[] | undefined = undefined
+	let alias: MemberAlias[] = []
 	if (member && member[0]) {
 		alias = await db.select().from(aliases).where(eq(aliases.member, id))
 	}
@@ -96,8 +96,14 @@ export async function addAlias(data: MemberAliasFull) {
 	const alias = await db.insert(aliases).values(data).returning()
 
 	if (alias && alias[0]) return alias[0]
+	else return null
 }
 
 export async function removeAliasById(id: number) {
 	await db.delete(aliases).where(eq(aliases.id, id))
+}
+
+export async function getAliasesBySystem(system: number) {
+	const alias = await db.select().from(aliases).where(eq(aliases.system, system))
+	return alias
 }

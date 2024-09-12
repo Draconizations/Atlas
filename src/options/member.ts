@@ -103,3 +103,20 @@ export const memberViewOptions = {
 		description: "Shows a member from the user specified.",
 	}),
 }
+
+export const aliasOptions = {
+	member: createStringOption({
+		required: true,
+		description: "The name or alias of the member",
+	}),
+	add: createStringOption({
+		required: false,
+		description: "Adds an alias",
+		max_length: 100,
+	}),
+	remove: createStringOption({
+		required: false,
+		description: "Removes an alias",
+		max_length: 100,
+	}),
+}

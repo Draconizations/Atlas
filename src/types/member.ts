@@ -30,6 +30,5 @@ export interface MemberAlias {
 export interface MemberAliasFull extends MemberAlias {
 	member: number
 	system: number
-	id: number
 	name: string
 }
